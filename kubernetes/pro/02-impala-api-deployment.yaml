@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: impala-api
+spec:
+  replicas: 1
+  selector:
+  template:
+    metadata:
+      labels:
+        app: impala-api
+    spec:
+      containers:
+      - env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: NODE_ENV
+          value: development
+        - name: DB_HOST
+          value: 10.30.64.11:21050
+        # These secrets are required to start the pod.
+        # [START cloudsql_secrets]
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: impala-db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: impala-db-credentials
+              key: password
+        image: eu.gcr.io/future-digital-platform/pueteam/impala-api:68f3acb415836bc78113044fe7f178b93f736a2e
+        name: impala-api
+        ports:
+        - containerPort: 10010
+          hostPort: 10010
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 10010
+            httpHeaders:
+              - name: Host
+                value: KubernetesLivenessProbe
+          initialDelaySeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 10010
+            httpHeaders:
+              - name: Host
+                value: KubernetesLivenessProbe
+          initialDelaySeconds: 30
+        resources: {}
+      restartPolicy: Always

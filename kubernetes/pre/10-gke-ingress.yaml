@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-beta-ingress
+spec:
+  tls:
+  - secretName: podo-2019-cert
+  rules:
+  - host: sgpc.mipodo.com
+    http:
+      paths:
+      - backend:
+          serviceName: seqgen-60001
+          servicePort: seqgen-http
+        path: /seqgen/*
+      - backend:
+          serviceName: sgpc-60000
+          servicePort: sgpc-http
+        path: /sgpc/*

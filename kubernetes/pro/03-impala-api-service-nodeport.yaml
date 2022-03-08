@@ -1,0 +1,15 @@
+# Service for offer-service-v2
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: impala-api
+  name: impala-api-60002
+spec:
+  type: NodePort
+  ports:
+  - port: 60002
+    name: impala-api-http
+    targetPort: 10010
+  selector:
+    app: impala-api

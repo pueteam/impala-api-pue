@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: impala-api-uat-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`api-beta-glp.mipodo.com`) && PathPrefix(`/impalauat`)
+    kind: Rule
+    services:
+    - name: impala-api-uat-service
+      port: 10010
+  tls:
+    certResolver: letsencrypt

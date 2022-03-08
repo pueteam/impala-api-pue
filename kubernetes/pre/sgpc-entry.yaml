@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  name: sgpc-ingress
+  namespace: default
+spec:
+  rules:
+  - host: sgpc.mipodo.com
+    http:
+      paths:
+      - backend:
+          serviceName: sgpc
+          servicePort: 10010
+        path: /
+  tls:
+  - hosts:
+    - sgpc.mipodo.com
+    secretName: sgpc-docker-tls

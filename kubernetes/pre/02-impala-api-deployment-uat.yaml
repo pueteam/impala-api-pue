@@ -1,0 +1,72 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: impala-api-uat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: impala-api-uat
+  template:
+    metadata:
+      labels:
+        app: impala-api-uat
+    spec:
+      containers:
+      - env:
+        - name: ROUTE
+          value: impalauat
+        - name: MAXPOOLSIZE
+          value: "80"
+        - name: REDIS_SERVER
+          value: redis-master.default.svc.cluster.local
+        - name: REDIS_PASSWORD
+          value: JP3EifdiBn
+        - name: RGUDB
+          value: pro_rgu
+        - name: WSDB
+          value: pro_webservices
+        - name: MDMDB
+          value: pro_mdm
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: NODE_ENV
+          value: development
+        - name: DB_HOST
+          value: 10.30.65.12:21050
+        - name: SEQGEN_HOST
+          value: https://api-beta-glp.mipodo.com
+        - name: SEQGEN_TOKEN
+          value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6InB1ZS5lcyIsInJvbGUiOiJhZG1pbnJvbGUiLCJpYXQiOjE1NTQzNzA4ODMsImV4cCI6MTU1NDM4ODg4M30.8eqvBrWCU4Qwg-lH1ybNAItXyAAAD2L74i1x0y7iUsQ
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: impala-db-credentials
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: impala-db-credentials
+        image: eu.gcr.io/future-digital-platform/pueteam/impala-api:ebf5479
+        name: impala-api
+        ports:
+        - containerPort: 10010
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 10010
+            httpHeaders:
+              - name: Host
+                value: KubernetesLivenessProbe
+          initialDelaySeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 10010
+            httpHeaders:
+              - name: Host
+                value: KubernetesLivenessProbe
+          initialDelaySeconds: 30
+        resources: {}
+      restartPolicy: Always

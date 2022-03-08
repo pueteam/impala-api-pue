@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: impala-api-preprod-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`api-beta-glp.mipodo.com`) && PathPrefix(`/impalapreprod`)
+    kind: Rule
+    services:
+    - name: impala-api-preprod-service
+      port: 10010
+  tls:
+    certResolver: letsencrypt

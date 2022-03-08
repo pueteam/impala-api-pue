@@ -1,0 +1,14 @@
+# Service for offer-service-v2
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: sgpc
+  name: sgpc
+spec:
+  type: NodePort
+  ports:
+  - port: 10010
+    name: http
+  selector:
+    app: sgpc

@@ -1,0 +1,48 @@
+{
+  "name": "impala-api",
+  "version": "1.0.0",
+  "description": "Impala query API",
+  "main": "src/index.js",
+  "repository": "https://github.com/pueteam/impala-api",
+  "author": "Sergio Rodriguez",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "devel": "GCLOUD_PROJECT=future-digital-platform NODE_ENV=development REDIS_SERVER=localhost ./node_modules/nodemon/bin/nodemon.js -r dotenv/config ./src/index.js"
+  },
+  "dependencies": {
+    "@google-cloud/logging-bunyan": "^3.1.1",
+    "@mechanicalhuman/bunyan-pretty": "^3.0.1",
+    "bcrypt": "^5.0.1",
+    "boom": "^7.3.0",
+    "bunyan": "^1.8.15",
+    "csv-parser": "^3.0.0",
+    "fastify": "^3.22.0",
+    "fastify-bearer-auth": "^6.0.0",
+    "fastify-jwt": "^3.2.1",
+    "fastify-multipart": "^5.0.2",
+    "fastify-passport": "^0.4.3",
+    "fastify-plugin": "^3.0.0",
+    "fastify-secure-session": "^3.0.0",
+    "fastify-swagger": "^4.12.4",
+    "jdbc": "^0.7.6",
+    "ldapauth-fork": "^5.0.1",
+    "ldapjs": "^2.3.1",
+    "moment": "^2.29.1",
+    "murmurhash3": "^0.5.0",
+    "nodemon": "^2.0.13",
+    "passport-ldapauth": "^3.0.1",
+    "pino": "^7.0.2",
+    "pump": "^3.0.0",
+    "redis": "^3.1.2",
+    "request": "^2.88.2",
+    "strip-bom-stream": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.8",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1"
+  }
+}
